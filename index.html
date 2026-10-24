@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563EB">
+<title>Klaim Voucher Sahabatku</title>
+<style>
+:root{--bg:#F1F5FD;--card:#fff;--tx:#0F172A;--mu:#64748B;--bd:#E2E8F5;--soft:#EEF3FF;--pri:#2563EB;--ok:#059669;--bad:#E11D48}
+@media(prefers-color-scheme:dark){:root{--bg:#080D1A;--card:#111A2E;--tx:#E8EEFB;--mu:#93A1BF;--bd:#1E2A44;--soft:#18233D}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;min-height:100dvh}
+.wrap{max-width:520px;margin:0 auto;padding:0 14px calc(28px + env(safe-area-inset-bottom))}
+header{background:linear-gradient(135deg,#6D28D9,#2563EB 60%,#38BDF8);color:#fff;border-radius:0 0 28px 28px;padding:calc(18px + env(safe-area-inset-top)) 18px 54px;position:relative;overflow:hidden}
+header:before{content:"";position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.13)}
+.brand{display:flex;align-items:center;gap:10px;position:relative}.brand img{width:40px;height:40px;border-radius:12px;background:#fff;object-fit:contain;padding:3px}
+.brand b{font-size:15px;letter-spacing:.06em;display:block}.brand small{opacity:.9;font-size:11.5px}
+h1{margin:16px 0 0;font-size:22px;letter-spacing:-.01em;position:relative}header p{margin:3px 0 0;font-size:12.5px;opacity:.92;position:relative}
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--bd);padding:4px;border-radius:16px;margin:-26px 0 14px;position:relative;box-shadow:0 8px 20px -12px rgba(15,23,42,.35)}
+.tabs button{flex:1;height:40px;border:0;border-radius:12px;background:transparent;font:inherit;font-weight:800;font-size:13px;color:var(--mu);cursor:pointer}.tabs button.on{background:var(--pri);color:#fff}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:11px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin:0 0 5px}
+input{width:100%;height:48px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:14px;padding:0 14px;font:inherit;font-size:16px;font-weight:700;outline:0}input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.k{letter-spacing:.08em;text-transform:uppercase;font-family:ui-monospace,Menlo,monospace}
+.row{display:flex;gap:8px}.row>*{flex:1}.gap{height:10px}
+button.b{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border:0;border-radius:15px;background:linear-gradient(135deg,#2563EB,#4A93FF);color:#fff;font:inherit;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 10px 20px -10px #2563EB}
+button.b:active{transform:scale(.98)}button.b[disabled]{opacity:.55;pointer-events:none}button.b.g{background:var(--soft);color:var(--pri);box-shadow:none}button.b.ok{background:linear-gradient(135deg,#059669,#34D399);box-shadow:0 10px 20px -10px #059669}button.b.s{height:42px;width:auto;padding:0 16px;font-size:13px;border-radius:12px}
+.err{background:#FFE4E6;color:#BE123C;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;margin-top:10px}
+.v{border-radius:22px;color:#fff;overflow:hidden;position:relative;background:linear-gradient(140deg,var(--c1),var(--c2));padding:16px;box-shadow:0 14px 26px -14px var(--c1);isolation:isolate}
+.v:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 105% -10%,rgba(255,255,255,.26) 0 24%,transparent 25%)}
+.v .t{display:flex;justify-content:space-between;align-items:center;gap:8px}.chip{font-size:10px;font-weight:800;padding:4px 11px;border-radius:99px;background:rgba(255,255,255,.22);text-transform:uppercase;letter-spacing:.05em}.chip.klaim{background:#10B981}.chip.kadaluarsa{background:#EF4444}.chip.nonaktif{background:rgba(0,0,0,.4)}
+.v .sp{font-size:12px;font-weight:700;opacity:.95;display:flex;align-items:center;gap:7px}.v .sp img{width:24px;height:24px;border-radius:8px;background:#fff;object-fit:contain}
+.v h2{margin:8px 0 0;font-size:23px;line-height:1.15;letter-spacing:-.015em}.v p{margin:5px 0 0;font-size:13.5px;opacity:.95}
+.v .n{display:inline-block;margin-top:10px;background:#fff;color:var(--c1);font-weight:800;padding:6px 14px;border-radius:99px;font-size:13.5px}
+.v .f{display:flex;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;border-top:2px dashed rgba(255,255,255,.5);font-size:12px}.v .f small{display:block;opacity:.8;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}.v .f b{display:block;margin-top:2px}
+.vimg{width:100%;border-radius:20px;display:block;background:#fff;margin-bottom:10px}
+.info{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:13.5px}.info:last-child{border:0}.info small{color:var(--mu);font-weight:700}.info b{text-align:right}
+.q{font-size:16px;font-weight:800;margin:0 0 4px}.mu{color:var(--mu);font-size:13px;margin:0}
+.done{text-align:center;padding:26px 14px}.tick{width:84px;height:84px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#059669,#34D399);display:flex;align-items:center;justify-content:center;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.tick svg{width:44px;height:44px;stroke:#fff;stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done h2{margin:0 0 4px;font-size:21px;color:var(--ok)}
+.day{font-size:11px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin:14px 2px 6px}
+.h{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--bd)}.h:last-child{border:0}.h i{flex:none;width:38px;height:38px;border-radius:12px;background:#DCFCE7;color:#15803D;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800}
+.h div{flex:1;min-width:0}.h b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.h small{color:var(--mu);font-size:11.5px}.h span{font-size:12px;font-weight:800;color:var(--mu)}
+.sum{display:flex;gap:8px;margin-bottom:6px}.sum div{flex:1;background:var(--soft);border-radius:14px;padding:10px;text-align:center}.sum b{display:block;font-size:20px;color:var(--pri)}.sum small{font-size:10.5px;color:var(--mu);font-weight:700}
+.empty{text-align:center;color:var(--mu);padding:26px 10px;font-size:13.5px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="padding:0"><div class="brand"><img id="logo" alt="" src="https://uploads.onecompiler.io/43v32m6x5/44rw83fkz/Sahabatku%20(2).png"><div><b>SAHABATKU</b><small>Delivery · Mitra</small></div></div><h1>Klaim Voucher</h1><p>Scan QR voucher atau ketik kodenya, lalu masukkan password mitra.</p></div></header>
+<div class="wrap">
+<div class="tabs"><button id="t1" class="on" type="button">Klaim</button><button id="t2" type="button">Riwayat</button></div>
+
+<section id="p1">
+  <div class="card" id="cari">
+    <label for="kode">Kode voucher</label>
+    <input id="kode" class="k" placeholder="Mis. SHB-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search">
+    <div class="gap"></div>
+    <div class="row"><button class="b" id="cek" type="button">Cek voucher</button><button class="b g hide" id="scan" type="button" style="flex:0 0 auto;width:auto;padding:0 16px">Scan QR</button></div>
+    <video id="cam" class="hide" playsinline muted style="width:100%;border-radius:16px;margin-top:10px"></video>
+    <div class="err hide" id="e1"></div>
+  </div>
+  <div id="hasil"></div>
+</section>
+
+<section id="p2" class="hide">
+  <div class="card" id="masuk">
+    <label for="pw2">Password mitra</label>
+    <input id="pw2" type="password" placeholder="Password klaim dari admin" autocomplete="off">
+    <div class="gap"></div><button class="b" id="lihat" type="button">Lihat riwayat</button>
+    <div class="err hide" id="e2"></div>
+  </div>
+  <div id="riwayat"></div>
+</section>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getDatabase,ref,get,update,runTransaction} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyDweL8xXcOu6ZODYzCa1KpqZVPLH5Ocijk",authDomain:"aplikasi-sahabatkugroup.firebaseapp.com",databaseURL:"https://aplikasi-sahabatkugroup-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"aplikasi-sahabatkugroup",storageBucket:"aplikasi-sahabatkugroup.firebasestorage.app",messagingSenderId:"323288632862"});
+const db=getDatabase(app),$=id=>document.getElementById(id);
+const esc=t=>String(t==null?"":t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const wib=()=>new Date(Date.now()+7*36e5),hariIni=()=>wib().toISOString().slice(0,10);
+const BLN=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+const tgl=t=>{const p=String(t||"").split("-");return p.length===3?+p[2]+" "+BLN[+p[1]-1]+" "+p[0]:t||"-"};
+const jam=ms=>{if(!ms)return"";const d=new Date(+ms+7*36e5);return String(d.getUTCHours()).padStart(2,"0")+":"+String(d.getUTCMinutes()).padStart(2,"0")};
+const norm=v=>String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+const fmt=v=>{const k=norm(v);return /^SHB[A-Z2-9]{8}$/.test(k)?k.slice(0,3)+"-"+k.slice(3,7)+"-"+k.slice(7):k};
+/* HARUS sama dengan aplikasi */
+const cyrb53=(str,seed)=>{let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)};
+const pwKey=pw=>{const p=String(pw||"").trim().toLowerCase();return"m"+cyrb53("sbk:"+p,7).toString(36)+cyrb53("kbs:"+p,9).toString(36)};
+const THEMES={biru:["#1D4ED8","#4A93FF"],hijau:["#047857","#34D399"],ungu:["#6D28D9","#A78BFA"],jingga:["#C2410C","#FB923C"],merah:["#BE123C","#FB7185"],tosca:["#0F766E","#2DD4BF"],emas:["#92400E","#FBBF24"],gelap:["#0F172A","#475569"]};
+const shade=(h,a)=>{const m=/^#?([0-9a-f]{6})$/i.exec(h||"");if(!m)return"#4A93FF";const n=parseInt(m[1],16),f=v=>Math.max(0,Math.min(255,Math.round(v+(255-v)*a)));return"#"+[(n>>16)&255,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("")};
+const warna=p=>THEMES[p&&p.warna]||(()=>{const c=p&&/^#[0-9a-f]{6}$/i.test(p.warna)?p.warna:"#1D4ED8";return[c,shade(c,.38)]})();
+const status=(p,c)=>{if(c&&c.status==="klaim")return"klaim";if(p.expired&&p.expired<hariIni())return"kadaluarsa";if(p.aktif===false)return"nonaktif";if(p.mulai&&p.mulai>hariIni())return"belum_mulai";return"belum"};
+const LBL={belum:"Tersedia",klaim:"Sudah diklaim",kadaluarsa:"Kadaluarsa",nonaktif:"Nonaktif",belum_mulai:"Belum berlaku"};
+const LS=k=>{try{return localStorage.getItem(k)||""}catch(e){return""}},SS=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},RM=k=>{try{localStorage.removeItem(k)}catch(e){}};
+
+/* tab */
+function tab(n){$("p1").classList.toggle("hide",n!==1);$("p2").classList.toggle("hide",n!==2);$("t1").classList.toggle("on",n===1);$("t2").classList.toggle("on",n===2);n===2&&riwayatInit()}
+$("t1").onclick=()=>tab(1);$("t2").onclick=()=>tab(2);
+
+/* cari voucher */
+let cur=null;
+async function cari(kode){
+  kode=norm(kode);const e=$("e1");e.classList.add("hide");$("hasil").innerHTML="";
+  if(kode.length<4){e.textContent="Masukkan kode voucher.";e.classList.remove("hide");return}
+  $("cek").disabled=true;$("cek").textContent="Memeriksa...";
+  try{
+    let pid=((await get(ref(db,"reward_kode/"+kode))).val()||{}).pid;
+    if(!pid){const all=(await get(ref(db,"reward_pk"))).val()||{};for(const p in all)if(all[p]&&all[p][kode]){pid=p;break}}
+    if(!pid)throw new Error("Kode voucher tidak ditemukan.");
+    const [c,p]=await Promise.all([get(ref(db,`reward_pk/${pid}/${kode}`)),get(ref(db,"reward_program/"+pid))]);
+    if(!c.val()||!p.val())throw new Error("Voucher tidak valid.");
+    cur={kode,pid,c:c.val(),p:p.val()};tampil();
+  }catch(x){cur=null;e.textContent=x.message||"Gagal memeriksa. Cek koneksi internet.";e.classList.remove("hide")}
+  $("cek").disabled=false;$("cek").textContent="Cek voucher";
+}
+function tampil(){
+  const {kode,c,p}=cur,st=status(p,c),[c1,c2]=warna(p),img=c.img||"";
+  const kartu=img?`<img class="vimg" src="${esc(img)}" alt="">`:`<div class="v" style="--c1:${c1};--c2:${c2}"><div class="t"><span class="sp">${p.logo?`<img src="${esc(p.logo)}" alt="">`:""}${esc(p.sponsor||"Mitra Sahabatku")}</span><span class="chip ${st}">${LBL[st]}</span></div><h2>${esc(p.nama)}</h2><p>${esc(p.benefit||"")}</p>${p.nilai?`<span class="n">${esc(p.nilai)}</span>`:""}<div class="f"><div><small>Berlaku</small><b>${p.mulai?tgl(p.mulai)+" – ":"s/d "}${tgl(p.expired)}</b></div><div style="text-align:right"><small>Kode</small><b class="k">${esc(fmt(kode))}</b></div></div></div>`;
+  let aksi="";
+  if(st==="belum"){
+    if(!c.kurirId)aksi=`<div class="err">Voucher ini belum dikirim ke kurir, belum bisa diklaim.</div>`;
+    else aksi=`<div class="card"><p class="q">Klaim voucher ini?</p><p class="mu">Voucher milik <b>${esc(c.kurirNama||"kurir")}</b>. Setelah diklaim tidak bisa dipakai lagi.</p><div class="gap"></div><label for="pw">Password mitra</label><input id="pw" type="password" placeholder="Password klaim dari admin" autocomplete="off"><div class="gap"></div><label for="pt">Nama petugas (opsional)</label><input id="pt" placeholder="Nama Anda" value="${esc(LS("klaim_nama"))}" autocomplete="off"><div class="gap"></div><button class="b ok" id="klaim" type="button">Ya, klaim voucher</button><div class="err hide" id="e3"></div></div>`;
+  }else if(st==="klaim")aksi=`<div class="err">Voucher ini sudah diklaim ${c.klaimTgl?tgl(c.klaimTgl)+" "+jam(c.klaimAt):""}${c.klaimOleh?" oleh "+esc(c.klaimOleh):""}.</div>`;
+  else aksi=`<div class="err">${st==="kadaluarsa"?"Voucher sudah kadaluarsa.":st==="belum_mulai"?"Voucher belum berlaku (mulai "+tgl(p.mulai)+").":"Voucher sedang dinonaktifkan."}</div>`;
+  $("hasil").innerHTML=`${kartu}<div class="card" style="margin-top:10px"><div class="info"><small>Kurir</small><b>${esc(c.kurirNama||"-")}</b></div><div class="info"><small>Kode</small><b class="k">${esc(fmt(kode))}</b></div>${p.syarat?`<div class="info"><small>Syarat</small><b style="white-space:pre-line;font-weight:600">${esc(p.syarat)}</b></div>`:""}</div>${aksi}`;
+  const b=$("klaim");b&&(b.onclick=klaim);
+  $("hasil").scrollIntoView({behavior:"smooth",block:"start"});
+}
+async function klaim(){
+  const e=$("e3"),pw=$("pw").value,{kode,pid,p}=cur;e.classList.add("hide");
+  const bad=m=>{e.textContent=m;e.classList.remove("hide")};
+  if(!pw.trim())return bad("Masukkan password mitra.");
+  if(!p.pwh||pwKey(pw)!==p.pwh)return bad("Password salah.");
+  const nama=($("pt").value||"").trim()||p.sponsor||"Mitra";SS("klaim_nama",$("pt").value.trim());
+  const b=$("klaim");b.disabled=true;b.textContent="Memproses...";
+  try{
+    const now=Date.now(),t=hariIni();
+    const r=await runTransaction(ref(db,`reward_pk/${pid}/${kode}`),cu=>{if(!cu)return cu;if(cu.status==="klaim")return;return Object.assign({},cu,{status:"klaim",klaimAt:now,klaimTgl:t,klaimOleh:nama})});
+    if(!r.committed)throw new Error("Voucher ini sudah diklaim sebelumnya.");
+    const c=cur.c,m={},rec={pid,kode,tgl:t,nama:p.nama||"",sponsor:p.sponsor||"",kurirNama:c.kurirNama||"",petugas:nama,at:now,pwh:p.pwh};
+    if(c.kurirId){m[`reward_kurir/${c.kurirId}/${kode}/status`]="klaim";m[`reward_kurir/${c.kurirId}/${kode}/klaimAt`]=now;m[`reward_kurir/${c.kurirId}/${kode}/klaimTgl`]=t}
+    m[`reward_klaim/${t}/${kode}`]=rec;m[`reward_klaim_m/${p.pwh}/${kode}`]=rec;
+    await update(ref(db),m);
+    SS("klaim_pw",p.pwh);SS("klaim_mitra",p.sponsor||"");
+    $("hasil").innerHTML=`<div class="card done"><div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg></div><h2>Klaim berhasil!</h2><p class="mu"><b>${esc(p.nama)}</b><br>${esc(c.kurirNama||"")}<br>${esc(p.benefit||"")}</p><div class="gap"></div><p class="mu">${tgl(t)} · ${jam(now)} · ${esc(nama)}</p><div class="gap"></div><button class="b g" id="lagi" type="button">Klaim voucher lain</button></div>`;
+    $("lagi").onclick=()=>{$("hasil").innerHTML="";$("kode").value="";$("kode").focus();cur=null;history.replaceState(null,"",location.pathname)};
+    window.scrollTo({top:0,behavior:"smooth"});
+  }catch(x){bad(x.message||"Gagal klaim. Coba lagi.");b.disabled=false;b.textContent="Ya, klaim voucher"}
+}
+$("cek").onclick=()=>cari($("kode").value);
+$("kode").addEventListener("keydown",e=>e.key==="Enter"&&cari($("kode").value));
+
+/* scan QR (jika browser mendukung) */
+let stream=null;
+if("BarcodeDetector" in window){$("scan").classList.remove("hide");$("scan").onclick=async()=>{
+  const v=$("cam");if(stream){stop();return}
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});v.srcObject=stream;v.classList.remove("hide");await v.play();
+    const det=new BarcodeDetector({formats:["qr_code"]});const loop=async()=>{if(!stream)return;try{const r=await det.detect(v);if(r.length){const raw=r[0].rawValue,m=/[?&]k=([^&]+)/i.exec(raw);const k=m?decodeURIComponent(m[1]):raw;stop();$("kode").value=fmt(k);cari(k);return}}catch(e){}setTimeout(loop,300)};loop()
+  }catch(e){stop();const x=$("e1");x.textContent="Kamera tidak bisa dibuka. Ketik kode secara manual.";x.classList.remove("hide")}}}
+function stop(){stream&&stream.getTracks().forEach(t=>t.stop());stream=null;$("cam").classList.add("hide")}
+
+/* riwayat per password mitra */
+async function riwayatInit(){
+  const k=LS("klaim_pw");$("e2").classList.add("hide");
+  if(k){$("masuk").classList.add("hide");await muat(k)}else{$("masuk").classList.remove("hide");$("riwayat").innerHTML=""}
+}
+$("lihat").onclick=async()=>{const pw=$("pw2").value;if(!pw.trim()){$("e2").textContent="Masukkan password mitra.";$("e2").classList.remove("hide");return}
+  const k=pwKey(pw);$("lihat").disabled=true;
+  try{const v=(await get(ref(db,"reward_klaim_m/"+k))).val();
+    if(!v){/* cek apakah password valid dipakai program */const P=(await get(ref(db,"reward_program"))).val()||{};if(!Object.values(P).some(p=>p&&p.pwh===k)){$("e2").textContent="Password tidak dikenal.";$("e2").classList.remove("hide");$("lihat").disabled=false;return}}
+    SS("klaim_pw",k);$("masuk").classList.add("hide");await muat(k,v)
+  }catch(x){$("e2").textContent="Gagal memuat. Cek koneksi.";$("e2").classList.remove("hide")}
+  $("lihat").disabled=false};
+async function muat(k,pre){
+  $("riwayat").innerHTML='<div class="empty">Memuat riwayat...</div>';
+  let v=pre;try{if(v===undefined)v=(await get(ref(db,"reward_klaim_m/"+k))).val()}catch(e){$("riwayat").innerHTML='<div class="empty">Gagal memuat. Cek koneksi.</div>';return}
+  const rows=Object.values(v||{}).sort((a,b)=>(b.at||0)-(a.at||0)),mitra=(rows[0]&&rows[0].sponsor)||LS("klaim_mitra");
+  const hari=rows.filter(r=>r.tgl===hariIni()).length,bln=rows.filter(r=>(r.tgl||"").slice(0,7)===hariIni().slice(0,7)).length;
+  const g={};rows.forEach(r=>(g[r.tgl]=g[r.tgl]||[]).push(r));
+  $("riwayat").innerHTML=`<div class="sum"><div><b>${hari}</b><small>Hari ini</small></div><div><b>${bln}</b><small>Bulan ini</small></div><div><b>${rows.length}</b><small>Total</small></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin:8px 2px"><small style="color:var(--mu);font-weight:700">${esc(mitra)}</small><button class="b g s" id="keluar" type="button">Ganti password</button></div>`+
+  (rows.length?Object.keys(g).sort().reverse().map(d=>`<div class="day">${tgl(d)} · ${g[d].length} klaim</div><div class="card" style="padding:4px 14px">${g[d].map(r=>`<div class="h"><i>✓</i><div><b>${esc(r.nama||"-")} · ${esc(r.kurirNama||"-")}</b><small class="k">${esc(fmt(r.kode))} · ${esc(r.petugas||"")}</small></div><span>${jam(r.at)}</span></div>`).join("")}</div>`).join(""):'<div class="empty">Belum ada voucher yang diklaim.</div>');
+  $("keluar").onclick=()=>{RM("klaim_pw");RM("klaim_mitra");$("pw2").value="";riwayatInit()};
+}
+
+/* buka dari QR: ?k=KODE */
+const q=new URLSearchParams(location.search).get("k");
+if(q){$("kode").value=fmt(q);cari(q)}
+</script>
+</body>
+</html>
