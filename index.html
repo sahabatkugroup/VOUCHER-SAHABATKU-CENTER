@@ -66,7 +66,9 @@ button.b:active{transform:scale(.98)}button.b[disabled]{opacity:.55;pointer-even
 
 <section id="p2" class="hide">
   <div class="card" id="masuk">
-    <label for="pw2">Password mitra</label>
+    <label for="mt2">Nama mitra / sponsor</label>
+    <input id="mt2" placeholder="Mis. Liren" autocomplete="off">
+    <div class="gap"></div><label for="pw2">Password mitra</label>
     <input id="pw2" type="password" placeholder="Password klaim dari admin" autocomplete="off">
     <div class="gap"></div><button class="b" id="lihat" type="button">Lihat riwayat</button>
     <div class="err hide" id="e2"></div>
@@ -89,7 +91,8 @@ const norm=v=>String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
 const fmt=v=>{const k=norm(v);return /^SHB[A-Z2-9]{8}$/.test(k)?k.slice(0,3)+"-"+k.slice(3,7)+"-"+k.slice(7):k};
 /* HARUS sama dengan aplikasi */
 const cyrb53=(str,seed)=>{let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)};
-const pwKey=pw=>{const p=String(pw||"").trim().toLowerCase();return"m"+cyrb53("sbk:"+p,7).toString(36)+cyrb53("kbs:"+p,9).toString(36)};
+const nSp=v=>String(v||"").trim().toLowerCase().replace(/\s+/g," ");
+const pwKey=(sp,pw)=>{const p="sbk:"+nSp(sp)+"|"+String(pw||"").trim().toLowerCase();return"m"+cyrb53(p,7).toString(36)+cyrb53("kbs:"+nSp(sp)+"|"+String(pw||"").trim().toLowerCase(),9).toString(36)};
 const THEMES={biru:["#1D4ED8","#4A93FF"],hijau:["#047857","#34D399"],ungu:["#6D28D9","#A78BFA"],jingga:["#C2410C","#FB923C"],merah:["#BE123C","#FB7185"],tosca:["#0F766E","#2DD4BF"],emas:["#92400E","#FBBF24"],gelap:["#0F172A","#475569"]};
 const shade=(h,a)=>{const m=/^#?([0-9a-f]{6})$/i.exec(h||"");if(!m)return"#4A93FF";const n=parseInt(m[1],16),f=v=>Math.max(0,Math.min(255,Math.round(v+(255-v)*a)));return"#"+[(n>>16)&255,(n>>8)&255,n&255].map(v=>f(v).toString(16).padStart(2,"0")).join("")};
 const warna=p=>THEMES[p&&p.warna]||(()=>{const c=p&&/^#[0-9a-f]{6}$/i.test(p.warna)?p.warna:"#1D4ED8";return[c,shade(c,.38)]})();
@@ -134,7 +137,7 @@ async function klaim(){
   const e=$("e3"),pw=$("pw").value,{kode,pid,p}=cur;e.classList.add("hide");
   const bad=m=>{e.textContent=m;e.classList.remove("hide")};
   if(!pw.trim())return bad("Masukkan password mitra.");
-  if(!p.pwh||pwKey(pw)!==p.pwh)return bad("Password salah.");
+  if(!p.pwh||pwKey(p.sponsor,pw)!==p.pwh)return bad("Password salah.");
   const nama=($("pt").value||"").trim()||p.sponsor||"Mitra";SS("klaim_nama",$("pt").value.trim());
   const b=$("klaim");b.disabled=true;b.textContent="Memproses...";
   try{
@@ -166,14 +169,15 @@ function stop(){stream&&stream.getTracks().forEach(t=>t.stop());stream=null;$("c
 /* riwayat per password mitra */
 async function riwayatInit(){
   const k=LS("klaim_pw");$("e2").classList.add("hide");
-  if(k){$("masuk").classList.add("hide");await muat(k)}else{$("masuk").classList.remove("hide");$("riwayat").innerHTML=""}
+  if(k){$("masuk").classList.add("hide");await muat(k)}else{$("masuk").classList.remove("hide");$("riwayat").innerHTML="";$("mt2").value=LS("klaim_mitra")}
 }
-$("lihat").onclick=async()=>{const pw=$("pw2").value;if(!pw.trim()){$("e2").textContent="Masukkan password mitra.";$("e2").classList.remove("hide");return}
-  const k=pwKey(pw);$("lihat").disabled=true;
+$("lihat").onclick=async()=>{const mt=$("mt2").value.trim(),pw=$("pw2").value;const er=t=>{$("e2").textContent=t;$("e2").classList.remove("hide")};
+  if(!mt||!pw.trim())return er("Isi nama mitra dan password.");
+  const k=pwKey(mt,pw);$("lihat").disabled=true;$("e2").classList.add("hide");
   try{const v=(await get(ref(db,"reward_klaim_m/"+k))).val();
-    if(!v){/* cek apakah password valid dipakai program */const P=(await get(ref(db,"reward_program"))).val()||{};if(!Object.values(P).some(p=>p&&p.pwh===k)){$("e2").textContent="Password tidak dikenal.";$("e2").classList.remove("hide");$("lihat").disabled=false;return}}
-    SS("klaim_pw",k);$("masuk").classList.add("hide");await muat(k,v)
-  }catch(x){$("e2").textContent="Gagal memuat. Cek koneksi.";$("e2").classList.remove("hide")}
+    if(!v){const P=(await get(ref(db,"reward_program"))).val()||{};if(!Object.values(P).some(p=>p&&p.pwh===k)){er("Nama mitra atau password salah.");$("lihat").disabled=false;return}}
+    SS("klaim_pw",k);SS("klaim_mitra",mt);$("masuk").classList.add("hide");await muat(k,v)
+  }catch(x){er("Gagal memuat. Cek koneksi.")}
   $("lihat").disabled=false};
 async function muat(k,pre){
   $("riwayat").innerHTML='<div class="empty">Memuat riwayat...</div>';
@@ -181,9 +185,9 @@ async function muat(k,pre){
   const rows=Object.values(v||{}).sort((a,b)=>(b.at||0)-(a.at||0)),mitra=(rows[0]&&rows[0].sponsor)||LS("klaim_mitra");
   const hari=rows.filter(r=>r.tgl===hariIni()).length,bln=rows.filter(r=>(r.tgl||"").slice(0,7)===hariIni().slice(0,7)).length;
   const g={};rows.forEach(r=>(g[r.tgl]=g[r.tgl]||[]).push(r));
-  $("riwayat").innerHTML=`<div class="sum"><div><b>${hari}</b><small>Hari ini</small></div><div><b>${bln}</b><small>Bulan ini</small></div><div><b>${rows.length}</b><small>Total</small></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin:8px 2px"><small style="color:var(--mu);font-weight:700">${esc(mitra)}</small><button class="b g s" id="keluar" type="button">Ganti password</button></div>`+
+  $("riwayat").innerHTML=`<div class="sum"><div><b>${hari}</b><small>Hari ini</small></div><div><b>${bln}</b><small>Bulan ini</small></div><div><b>${rows.length}</b><small>Total</small></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin:8px 2px"><small style="color:var(--mu);font-weight:700">${esc(mitra)}</small><button class="b g s" id="keluar" type="button">Ganti mitra</button></div>`+
   (rows.length?Object.keys(g).sort().reverse().map(d=>`<div class="day">${tgl(d)} · ${g[d].length} klaim</div><div class="card" style="padding:4px 14px">${g[d].map(r=>`<div class="h"><i>✓</i><div><b>${esc(r.nama||"-")} · ${esc(r.kurirNama||"-")}</b><small class="k">${esc(fmt(r.kode))} · ${esc(r.petugas||"")}</small></div><span>${jam(r.at)}</span></div>`).join("")}</div>`).join(""):'<div class="empty">Belum ada voucher yang diklaim.</div>');
-  $("keluar").onclick=()=>{RM("klaim_pw");RM("klaim_mitra");$("pw2").value="";riwayatInit()};
+  $("keluar").onclick=()=>{RM("klaim_pw");RM("klaim_mitra");$("pw2").value="";$("mt2").value="";riwayatInit()};
 }
 
 /* buka dari QR: ?k=KODE */
